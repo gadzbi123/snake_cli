@@ -1,26 +1,37 @@
-#[derive(Debug)]
-struct Snake {
-    head: (f32, f32),
-    tail: Vec<(f32, f32)>,
-    chr: char,
-    pub dir: Direction,
+mod snake;
+use crate::snake::{Point, Snake};
+struct Board<'a> {
+    width: usize,
+    height: usize,
+    border: &'a str,
+    snake: Snake<'a>,
 }
-#[derive(Debug)]
-enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
-}
+impl Board<'static> {
+    fn new(width: usize, height: usize) -> Board<'static> {
+        Board {
+            width: width,
+            height: height,
+            border: "#",
+            snake: Snake::new(width, height),
+        }
+    }
 
+    fn print(&self) {
+        let top_bot_line = self.border.repeat(self.width);
+        println!("{}", top_bot_line);
+        for i in 0..(self.height - 2) {
+            let mut mid_line =
+                (self.border.to_owned() + " ".repeat(self.width - 2).as_str() + self.border);
+
+            if i == self.snake.head.y {
+                mid_line.replace_range(self.snake.head.x..self.snake.head.x + 1, "X");
+            }
+            println!("{}", mid_line);
+        }
+        println!("{}", top_bot_line);
+    }
+}
 fn main() {
-    let mut my_snake = Snake {
-        head: (1.0, 1.0),
-        tail: Vec::new(),
-        chr: 'X',
-        dir: Direction::Up,
-    };
-    println!("{:?}", my_snake);
-    my_snake.dir = Direction::Down;
-    println!("{:?}", my_snake);
+    let mut my_board = Board::new(25, 15);
+    my_board.print();
 }
