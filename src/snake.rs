@@ -1,10 +1,10 @@
 pub struct Point<X, Y> {
-    x: X,
-    y: Y,
+    pub x: X,
+    pub y: Y,
 }
 
 pub struct Snake<'a> {
-    head: Point<usize, usize>,
+    pub head: Point<usize, usize>,
     tail: Vec<Point<usize, usize>>,
     chr: &'a str,
     pub dir: Direction,
@@ -38,7 +38,7 @@ impl Snake<'static> {
     fn change_dir(&mut self, dir: Direction) {}
 }
 #[derive(PartialEq)]
-enum Direction {
+pub enum Direction {
     Up,
     Down,
     Left,

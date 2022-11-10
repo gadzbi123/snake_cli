@@ -1,5 +1,5 @@
 mod snake;
-use crate::snake::{Point, Snake};
+use crate::snake::Snake;
 struct Board<'a> {
     width: usize,
     height: usize,
@@ -21,7 +21,7 @@ impl Board<'static> {
         println!("{}", top_bot_line);
         for i in 0..(self.height - 2) {
             let mut mid_line =
-                (self.border.to_owned() + " ".repeat(self.width - 2).as_str() + self.border);
+                self.border.to_owned() + " ".repeat(self.width - 2).as_str() + self.border;
 
             if i == self.snake.head.y {
                 mid_line.replace_range(self.snake.head.x..self.snake.head.x + 1, "X");
@@ -31,6 +31,7 @@ impl Board<'static> {
         println!("{}", top_bot_line);
     }
 }
+
 fn main() {
     let mut my_board = Board::new(25, 15);
     my_board.print();
