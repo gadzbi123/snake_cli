@@ -1,27 +1,18 @@
-pub struct Point<X, Y> {
-    pub x: X,
-    pub y: Y,
-}
-
-pub struct Snake<'a> {
-    pub head: Point<usize, usize>,
-    tail: Vec<Point<usize, usize>>,
-    chr: &'a str,
+use crate::physics::{Direction, Point};
+pub struct Snake {
+    pub head: Point,
+    pub tail: Vec<Point>,
     pub dir: Direction,
 }
-impl Snake<'static> {
-    pub fn new(width: usize, height: usize) -> Snake<'static> {
+impl Snake {
+    pub fn new(point: Point) -> Snake {
         Snake {
-            head: Point {
-                x: width / 2,
-                y: height / 2,
-            },
+            head: point,
             tail: Vec::new(),
-            chr: "X",
             dir: Direction::Up,
         }
     }
-    fn tick_move(&mut self) {
+    pub fn tick_move(&mut self) {
         if self.dir == Direction::Up {
             self.head.y += 1;
         }
@@ -35,12 +26,11 @@ impl Snake<'static> {
             self.head.y -= 1;
         }
     }
-    fn change_dir(&mut self, dir: Direction) {}
-}
-#[derive(PartialEq)]
-pub enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
+
+    pub fn change_dir(&mut self, dir_new: Direction) {
+        if dir_new == self.dir.opposite() {
+            return;
+        };
+        self.dir = dir_new;
+    }
 }
